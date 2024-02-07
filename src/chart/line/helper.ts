@@ -121,9 +121,6 @@ export function getStackedOnPoint(
     if (dataCoordInfo.stacked) {
         value = data.get(data.getCalculationInfo('stackedOverDimension'), idx) as number;
     }
-    if (isNaN(value)) {
-        value = dataCoordInfo.valueStart;
-    }
 
     const baseDataOffset = dataCoordInfo.baseDataOffset;
     const stackedData = [];

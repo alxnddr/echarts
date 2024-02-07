@@ -89,6 +89,9 @@ function calculateStack(stackInfoList: StackInfo[]) {
         const isStackedByIndex = targetStackInfo.isStackedByIndex;
         const stackStrategy = targetStackInfo.seriesModel.get('stackStrategy') || 'samesign';
 
+        // TODO: get correct value start from coordinate system info?
+        const valueStart = 0;
+
         // Should not write on raw data, because stack series model list changes
         // depending on legend selection.
         targetData.modify(dims, function (v0, v1, dataIndex) {
@@ -111,7 +114,7 @@ function calculateStack(stackInfoList: StackInfo[]) {
             }
 
             // If stackOver is NaN, chart view will render point on value start.
-            let stackedOver = NaN;
+            let stackedOver = idxInStack === 0 ? valueStart : NaN;
 
             for (let j = idxInStack - 1; j >= 0; j--) {
                 const stackInfo = stackInfoList[j];
@@ -140,6 +143,9 @@ function calculateStack(stackInfoList: StackInfo[]) {
                         sum = addSafe(sum, val);
                         stackedOver = val;
                         break;
+                    }
+                    else if (!isNaN(val)) {
+                        stackedOver = valueStart;
                     }
                 }
             }
